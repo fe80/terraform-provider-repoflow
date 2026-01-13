@@ -1,29 +1,27 @@
 ---
-name: Generate Terraform Docs
+name: Docs Check
 on:
+  pull_request:
+    branches: [main]
   push:
-    branches:
-      - main
-
-permissions:
-  contents: write
+    branches: [main]
+    tags:
+      - 'v*'
 
 jobs:
-  docs:
+  check-docs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Set up Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version: '1.22'
 
-      - name: Generate docs
+      - name: Generate documentation
         run: go run github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs generate
 
-      - name: Commit and push changes
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "docs: update automated documentation"
-          file_pattern: 'docs/'
+      - name: Check for differences
+        run: |
+          git diff --exit-code docs || (echo "::error::La documentation n'est pas à jour avec le code. Lancez 'tfplugindocs generate' localement et committez les changements." && exit 1)
