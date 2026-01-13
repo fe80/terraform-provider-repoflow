@@ -2,6 +2,7 @@ package provider
 
 import (
 	"context"
+	"os"
 
 	"github.com/hashicorp/terraform-plugin-framework/action"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
@@ -10,7 +11,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/fe80/go-repoflow/pkg/repoflow"
@@ -47,14 +47,10 @@ func (p *RepoflowProvider) Schema(ctx context.Context, req provider.SchemaReques
 			"base_url": schema.StringAttribute{
 				MarkdownDescription: "Base URL of the Repoflow",
 				Optional:            true,
-				Computed:            true,
-				Default:             stringdefault.StaticString(os.Getenv("REPOFLOW_BASE_URL")),
 			},
 			"api_key": schema.StringAttribute{
 				MarkdownDescription: "Personnal Repoflow API key",
 				Optional:            true,
-				Computed:            true,
-				Default:             stringdefault.StaticString(os.Getenv("REPOFLOW_API_KEY")),
 				Sensitive:           true,
 			},
 		},
@@ -74,11 +70,23 @@ func (p *RepoflowProvider) Configure(ctx context.Context, req provider.Configure
 	// if data.Endpoint.IsNull() { /* ... */ }
 
 	// Example client configuration for data sources and resources
-	baseURL := data.BaseURL.ValueString()
-	apiKey := data.ApiKey.ValueString()
+	baseURL := os.Getenv("REPOFLOW_BASE_URL")
+	if !data.BaseURL.IsNull() {
+		baseURL = data.BaseURL.ValueString()
+	}
+	if baseURL == "" {
+		resp.Diagnostics.AddError("Configuration Error", "base_url must be set in provider block or REPOFLOW_BASE_URL env var")
+	}
+
+	apiKey := os.Getenv("REPOFLOW_API_KEY")
+	if !data.ApiKey.IsNull() {
+		apiKey = data.ApiKey.ValueString()
+	}
+	if apiKey == "" {
+		resp.Diagnostics.AddError("Configuration Error", "api_key must be set in provider block or REPOFLOW_API_KEY env var")
+	}
 
 	rfClient := repoflow.NewClient(baseURL, apiKey)
-	// rfClient := client.NewClient(&RepoflowProviderModel{})
 	resp.DataSourceData = rfClient
 	resp.ResourceData = rfClient
 }
