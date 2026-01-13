@@ -43,6 +43,7 @@ func (p *RepoflowProvider) Metadata(ctx context.Context, req provider.MetadataRe
 
 func (p *RepoflowProvider) Schema(ctx context.Context, req provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		MarkdownDescription: "This is a terraform provider use to manager [Repoflow](https://www.repoflow.com/) with stable Api",
 		Attributes: map[string]schema.Attribute{
 			"base_url": schema.StringAttribute{
 				MarkdownDescription: "Base URL of the Repoflow",
