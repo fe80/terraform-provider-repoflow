@@ -1,6 +1,6 @@
 # Terraform Provider Repoflow
 
-The Terraform provider for [Repoflow](https://www.repoflow.com) stable Api.
+The Terraform provider for [RepoFlow](https://www.repoflow.io) stable Api.
 
 ## Usage
 
