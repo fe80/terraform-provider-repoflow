@@ -4,14 +4,14 @@
 
 page_title: "Repoflow Terraform Provider"
 description: |-
-  This is a terraform provider use to manager [RepoFlow](https://www.repoflow.io/) with stable Api
+  This is a terraform provider use to manage [RepoFlow](https://www.repoflow.io/) with stable Api
 ---
 
 # Repoflow Terraform Provider
 
-Manage your [RepoFlow](https://www.repoflow.io/) with terraform.
+Manage your [RepoFlow](https://www.repoflow.io/) with Terraform.
 
-This provider utilizes the stable api (v1) to interact with Repoflow.
+This provider interacts with RepoFlow using the stable API (v1).
 
 ## Setup
 
@@ -24,7 +24,7 @@ provider "repoflow" {
 }
 ```
 
-It's best practice not to store the authentication token in plain text. As an alternative, the provider can source the authentication token from the `REPOFLOW_API_KEY` environment variable. It's also possible to use `REPOFLOW_BASE_URL` to define the base url (default is `https://127.0.0.1/api`).
+To adhere to security best practices, do not store authentication tokens in plaintext. As an alternative, the provider can retrieve the token from the `REPOFLOW_API_KEY` environment variable. Additionally, the `REPOFLOW_BASE_URL` variable may be used to define a custom Base URL (the default is `https://127.0.0.1/api`).
 
 ## Example Usage
 
