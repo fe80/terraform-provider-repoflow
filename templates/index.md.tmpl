@@ -25,3 +25,9 @@ provider "repoflow" {
 ```
 
 It's best practice not to store the authentication token in plain text. As an alternative, the provider can source the authentication token from the `REPOFLOW_API_KEY` environment variable. It's also possible to use `REPOFLOW_BASE_URL` to define the base url (default is `https://127.0.0.1/api`).
+
+## Example Usage
+
+{{tffile "examples/provider/provider.tf"}}
+
+{{ .SchemaMarkdown | trimspace }}

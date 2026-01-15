@@ -65,7 +65,7 @@ func (r *RepositoryResource) Metadata(ctx context.Context, req resource.Metadata
 func (r *RepositoryResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		// This description is used by the documentation generator and the language server.
-		MarkdownDescription: "Example resource",
+		MarkdownDescription: "Repository resource",
 
 		Attributes: map[string]schema.Attribute{
 			//Required
